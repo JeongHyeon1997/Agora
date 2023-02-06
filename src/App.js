@@ -18,7 +18,8 @@ const App = () => {
   let rtcProps = {
     appId: "4f3102bc6420468ab4df8406232cda1b",
     channel: channelName, // your agora channel
-    token: rtcToken,
+    token:
+      "007eJxTYIi+nmqRWVp77vD5iV3310wXOhjM94dNd+LMAoFDrpoTInQUGEzSjA0NjJKSzUyMDEzMLBKTTFLSLEwMzIyMjZJTEg2TMjY/SG4IZGSQ2STEwAiFID4LQ0lqcQkDAwAkBR57",
   };
   const callbacks = {
     EndCall: () => setVideoCall(false),
