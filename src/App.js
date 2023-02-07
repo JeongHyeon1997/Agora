@@ -31,20 +31,6 @@ const App = () => {
   const callbacks = {
     EndCall: () => setVideoCall(false),
   };
-
-  async function FetchToken() {
-    return new Promise(function (resolve) {
-      axios
-        .get(`rtc/${rtcProps.channel}/1/uid/${rtcProps.uid}/?expiry=60`)
-        .then((response) => {
-          console.log(response.data.rtcToken);
-          resolve(response.data.rtcToken);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-  }
   useEffect(() => {
     api
       .get(`/rtc/${rtcProps.channel}/1/uid/${rtcProps.uid}/?expiry=60`)
@@ -52,8 +38,8 @@ const App = () => {
         console.log(rtcProps);
         setRtcToken(res.data.rtcToken);
         rtcProps.channel = channelName;
+        rtcProps.token = res.data.rtcToken;
         rtcProps.uid = uId;
-        rtcProps.token = FetchToken();
         console.log(rtcProps);
       });
   }, [videoCall]);
