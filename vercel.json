@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://agora-token-service-production-f87a.up.railway.app"
+    },
+    {
+      "source": "/api/:path*/",
+      "destination": "https://agora-token-service-production-f87a.up.railway.app/:path*/"
+    }
+  ]
+}
