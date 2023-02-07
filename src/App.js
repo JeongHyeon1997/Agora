@@ -10,6 +10,12 @@ const App = () => {
   const [videoCall, setVideoCall] = useState(false);
   const [channelName, setChannelName] = useState("");
   const [rtcToken, setRtcToken] = useState("");
+  const [uId, setuId] = useState(0);
+
+  const uidUp = () => {
+    setuId(uId + 1);
+    console.log(uId);
+  };
 
   const changeChannel = (e) => {
     setChannelName(e.target.value);
@@ -18,6 +24,7 @@ const App = () => {
   let rtcProps = {
     appId: "4f3102bc6420468ab4df8406232cda1b",
     channel: "test", // your agora channel
+    uid: 0,
     token:
       "007eJxTYIi+nmqRWVp77vD5iV3310wXOhjM94dNd+LMAoFDrpoTInQUGEzSjA0NjJKSzUyMDEzMLBKTTFLSLEwMzIyMjZJTEg2TMjY/SG4IZGSQ2STEwAiFID4LQ0lqcQkDAwAkBR57",
   };
@@ -26,10 +33,12 @@ const App = () => {
   };
 
   useEffect(() => {
-    api.get(`/rtc/${channelName}/1/uid/1/?expiry=60`).then((res) => {
+    api.get(`/rtc/${channelName}/1/uid/0/?expiry=60`).then((res) => {
+      console.log(rtcProps);
       setRtcToken(res.data.rtcToken);
       rtcProps.channel = channelName;
       rtcProps.token = res.data.rtcToken;
+      rtcProps.uid = uId;
       console.log(rtcProps);
     });
   }, [videoCall]);
@@ -42,6 +51,7 @@ const App = () => {
     <>
       <input onChange={changeChannel} />
       <h3 onClick={() => setVideoCall(true)}>Start Call</h3>
+      <button onClick={uidUp} />
     </>
   );
 };
