@@ -22,6 +22,13 @@ const App = () => {
   };
   const showVideo = async () => {
     api.get(`/rtc/${rtcProps.channel}/1/uid/0/?expiry=60`).then((res) => {
+      console.log(
+        "--------------------------------------------------------------"
+      );
+      console.log(res);
+      console.log(
+        "--------------------------------------------------------------"
+      );
       setRtcProps({ ...rtcProps, token: res.data.rtcToken });
       setVideoCall(true);
     });
