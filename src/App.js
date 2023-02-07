@@ -17,7 +17,7 @@ const App = () => {
 
   let rtcProps = {
     appId: "4f3102bc6420468ab4df8406232cda1b",
-    channel: channelName, // your agora channel
+    channel: "test", // your agora channel
     token:
       "007eJxTYIi+nmqRWVp77vD5iV3310wXOhjM94dNd+LMAoFDrpoTInQUGEzSjA0NjJKSzUyMDEzMLBKTTFLSLEwMzIyMjZJTEg2TMjY/SG4IZGSQ2STEwAiFID4LQ0lqcQkDAwAkBR57",
   };
@@ -26,12 +26,13 @@ const App = () => {
   };
 
   useEffect(() => {
-    api.get("/rtc/test/1/uid/1/?expiry=60").then((res) => {
+    api.get(`/rtc/${channelName}/1/uid/1/?expiry=60`).then((res) => {
       setRtcToken(res.data.rtcToken);
-      console.log(res);
-      console.log(res.data.rtcToken);
+      rtcProps.channel = channelName;
+      rtcProps.token = res.data.rtcToken;
+      console.log(rtcProps);
     });
-  }, [rtcToken]);
+  }, [videoCall]);
 
   return videoCall ? (
     <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
