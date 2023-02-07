@@ -32,15 +32,30 @@ const App = () => {
     EndCall: () => setVideoCall(false),
   };
 
-  useEffect(() => {
-    api.get(`/rtc/${channelName}/1/uid/0/?expiry=60`).then((res) => {
-      console.log(rtcProps);
-      setRtcToken(res.data.rtcToken);
-      rtcProps.channel = channelName;
-      rtcProps.token = res.data.rtcToken;
-      rtcProps.uid = uId;
-      console.log(rtcProps);
+  async function FetchToken() {
+    return new Promise(function (resolve) {
+      axios
+        .get(`rtc/${rtcProps.channel}/1/uid/${rtcProps.uid}/?expiry=60`)
+        .then((response) => {
+          console.log(response.data.rtcToken);
+          resolve(response.data.rtcToken);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
+  }
+  useEffect(() => {
+    api
+      .get(`/rtc/${rtcProps.channel}/1/uid/${rtcProps.uid}/?expiry=60`)
+      .then((res) => {
+        console.log(rtcProps);
+        setRtcToken(res.data.rtcToken);
+        rtcProps.channel = channelName;
+        rtcProps.uid = uId;
+        rtcProps.token = FetchToken();
+        console.log(rtcProps);
+      });
   }, [videoCall]);
 
   return videoCall ? (
