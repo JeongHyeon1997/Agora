@@ -35,7 +35,7 @@ const App = () => {
     api
       .get(`/rtc/${rtcProps.channel}/1/uid/${rtcProps.uid}/?expiry=60`)
       .then((res) => {
-        console.log(rtcProps);
+        console.log(res);
         setRtcToken(res.data.rtcToken);
         rtcProps.channel = channelName;
         rtcProps.token = res.data.rtcToken;
