@@ -9,7 +9,6 @@ const api = axios.create({
 const App = () => {
   const [videoCall, setVideoCall] = useState(false);
   const [channelName, setChannelName] = useState("");
-  const [rtcToken, setRtcToken] = useState("");
   const [uId, setuId] = useState(0);
 
   const uidUp = () => {
@@ -24,24 +23,17 @@ const App = () => {
   let rtcProps = {
     appId: "4f3102bc6420468ab4df8406232cda1b",
     channel: "test", // your agora channel
-    uid: 0,
     token:
-      "007eJxTYIi+nmqRWVp77vD5iV3310wXOhjM94dNd+LMAoFDrpoTInQUGEzSjA0NjJKSzUyMDEzMLBKTTFLSLEwMzIyMjZJTEg2TMjY/SG4IZGSQ2STEwAiFID4LQ0lqcQkDAwAkBR57",
+      "007eJxTYNiy6avDmpeHwyZueHix7U2d2owrvA/6bua5GkS9NTaJ/1OvwGCSZmxoYJSUbGZiZGBiZpGYZJKSZmFiYGZkbJSckmiYxLH5YXJDICNDwDprBkYoBPFZGEpSi0sYGAA5GCHa",
   };
   const callbacks = {
     EndCall: () => setVideoCall(false),
   };
   useEffect(() => {
-    api
-      .get(`/rtc/${rtcProps.channel}/1/uid/${rtcProps.uid}/?expiry=60`)
-      .then((res) => {
-        console.log(res);
-        setRtcToken(res.data.rtcToken);
-        rtcProps.channel = channelName;
-        rtcProps.token = res.data.rtcToken;
-        rtcProps.uid = uId;
-        console.log(rtcProps);
-      });
+    rtcProps.channel = channelName;
+    api.get(`/rtc/${rtcProps.channel}/1/uid/0/?expiry=60`).then((res) => {
+      rtcProps.token = res.data.rtcToken;
+    });
   }, [videoCall]);
 
   return videoCall ? (
