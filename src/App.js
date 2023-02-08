@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AgoraUIKit from "agora-react-uikit";
 import axios from "axios";
+import styled from "styled-components";
 
 const api = axios.create({
   baseURL: "/api",
@@ -43,11 +44,16 @@ const App = () => {
       "--------------------------------------------------------------"
     );
   }, [rtcProps]);
-
+  const test = () => {
+    window.open("https://www.naver.com");
+  };
   return videoCall ? (
-    <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-      <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
-    </div>
+    <>
+      <Button onClick={test}>새로운 페이지 열기</Button>
+      <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+        <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
+      </div>
+    </>
   ) : (
     <>
       <input onChange={(e) => changeChannel(e)} />
@@ -63,3 +69,7 @@ const App = () => {
 };
 
 export default App;
+
+const Button = styled.button`
+  width: 100%;
+`;
