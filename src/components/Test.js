@@ -33,7 +33,6 @@ const Test = () => {
           Ref.current.srcObject = stream;
         } else if (videoPlay) {
           setVideoPlay(false);
-          video.srcObject = res;
           Ref.current.srcObject.getTracks().forEach((track) => {
             console.log(track);
             // 카메라 정지
