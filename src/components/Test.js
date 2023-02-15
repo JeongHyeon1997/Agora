@@ -15,9 +15,10 @@ const Test = () => {
   const [linkUrl, setLinkUrl] = useState(
     "?" + Math.floor(Math.random() * 100000)
   );
+  const [linkCheck, setLinkCheck] = useState(false);
   const Ref = useRef();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+  // const searchParams = new URLSearchParams(location.search);
   console.log();
 
   useEffect(() => {
@@ -26,10 +27,16 @@ const Test = () => {
   }, []);
 
   useEffect(() => {
-    // Get 방식 ? 제거
-    setChannel(location.search.replace("?", ""));
-    console.log(channel);
-  }, [location]);
+    console.log(linkUrl);
+    if (location.search !== "") {
+      // Get 방식 ? 제거
+      setChannel(location.search.replace("?", ""));
+      console.log("링크 타고 들어왔을 때 !!");
+    } else {
+      setChannel(linkUrl.replace("?", ""));
+      console.log("내가 링크 생성했을 때 !!");
+    }
+  }, [location, linkUrl]);
 
   // 카메라 On / Off
   const startVideo = async () => {
@@ -85,6 +92,7 @@ const Test = () => {
 
   const createUrl = () => {
     setLinkUrl("?" + Math.floor(Math.random() * 100000));
+    setLinkCheck(true);
   };
 
   return (
@@ -98,7 +106,9 @@ const Test = () => {
       </Body>
       <Button onClick={goHome}>홈으로 돌아가기</Button>
       <Button onClick={createUrl}>링크공유하기</Button>
-      {"https://agorara.vercel.app/test" + linkUrl}
+      <Contenst>
+        {linkCheck ? "https://agorara.vercel.app/test" + linkUrl : ""}
+      </Contenst>
     </>
   );
 };
@@ -127,4 +137,10 @@ const Start = styled.div`
   margin-left: auto;
   margin-right: auto;
   margin-top: 20pt;
+`;
+
+const Contenst = styled.div`
+  text-align: center;
+  margin-top: 20pt;
+  font: normal normal 700 15pt Pretendard;
 `;
