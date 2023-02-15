@@ -30,7 +30,7 @@ const Test = () => {
             video.play();
           };
           // 카메라 재생
-          // Ref.current.srcObject = stream;
+          Ref.current.srcObject = stream;
         } else if (videoPlay) {
           setVideoPlay(false);
           video.srcObject = res;
