@@ -4,6 +4,8 @@ import axios from "axios";
 import styled from "styled-components";
 import "../App.css";
 import useNavigate from "../hooks/useNavigate";
+import { channelState } from "../atomState";
+import { useRecoilState } from "recoil";
 
 const api = axios.create({
   baseURL: "/api",
@@ -11,6 +13,7 @@ const api = axios.create({
 
 const Home = () => {
   const [videoCall, setVideoCall] = useState(false);
+  const [channel] = useRecoilState(channelState);
   const [rtcProps, setRtcProps] = useState({
     appId: "4f3102bc6420468ab4df8406232cda1b",
     channel: "", // your agora channel
@@ -24,6 +27,10 @@ const Home = () => {
     EndCall: () => setVideoCall(false),
   };
   const showVideo = async () => {
+    if (rtcProps.channel === null || rtcProps.channel === "") {
+      alert("채널값이 없어요 !");
+      return;
+    }
     api.get(`/rtc/${rtcProps.channel}/1/uid/0/?expiry=3600`).then((res) => {
       console.log(
         "--------------------------------------------------------------"
@@ -38,14 +45,11 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(
-      "--------------------------------------------------------------"
-    );
-    console.log(rtcProps);
-    console.log(
-      "--------------------------------------------------------------"
-    );
-  }, [rtcProps]);
+    console.log("맨 처음 불러올때임 !!");
+    console.log(channel);
+    setRtcProps({ ...rtcProps, channel: channel });
+  }, []);
+
   const test = () => {
     window.open("https://www.naver.com");
   };

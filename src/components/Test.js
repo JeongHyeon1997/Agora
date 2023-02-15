@@ -1,17 +1,35 @@
 import { useEffect, useRef, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import { useLocation } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import styled from "styled-components";
+import { channelState } from "../atomState";
 import useNavigate from "../hooks/useNavigate";
 
 const Test = () => {
   const { goHome } = useNavigate();
   const [videoPlay, setVideoPlay] = useState(false);
   const [audioPlay, setAudioPlay] = useState(false);
+
+  const [channel, setChannel] = useRecoilState(channelState);
+  // Get 방식 + 5자리 랜덤 숫자
+  const [linkUrl, setLinkUrl] = useState(
+    "?" + Math.floor(Math.random() * 100000)
+  );
   const Ref = useRef();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  console.log();
 
   useEffect(() => {
     startVideo();
     startAudio();
   }, []);
+
+  useEffect(() => {
+    // Get 방식 ? 제거
+    setChannel(location.search.replace("?", ""));
+    console.log(channel);
+  }, [location]);
 
   // 카메라 On / Off
   const startVideo = async () => {
@@ -65,6 +83,10 @@ const Test = () => {
       });
   };
 
+  const createUrl = () => {
+    setLinkUrl("?" + Math.floor(Math.random() * 100000));
+  };
+
   return (
     <>
       <Body>
@@ -75,6 +97,8 @@ const Test = () => {
         <Button onClick={startAudio}>마이크 On / Off</Button>
       </Body>
       <Button onClick={goHome}>홈으로 돌아가기</Button>
+      <Button onClick={createUrl}>링크공유하기</Button>
+      {"https://agorara.vercel.app/test" + linkUrl}
     </>
   );
 };
